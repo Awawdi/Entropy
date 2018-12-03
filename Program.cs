@@ -1,15 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// This small program aims to determine whether a password is either weark,good or strong based on the string Entropy.
+/// </summary>
 
 namespace PassStrength
 {
     class Program
     {
-        private static Double StrongEntropy = 36.86;
+        private static Double StrongEntropy = 36.86; //as a finger rule, this number represent a good Entropy. can be changed.
         private static string GOOD = "GOOD";
         private static string STRONG = "STRONG";
         private static string WEAK = "WEAK";
@@ -17,21 +20,24 @@ namespace PassStrength
 
         static void Main(string[] args)
         {
-            Double Entropy = 0.0;
+            // initializations and definitions
+            double Entropy = 0.0;
             int counterOfSmallLetters = 0;
             int counterOfCapitalLetters = 0;
             int counterOfSpecialChars = 0;
             int counterOfNumbers = 0;
             int counterOthers = 0;
             char userInputSingleChar=' ';
-
             string output = "";
 
+            //read a string password from user
             Console.WriteLine("Please enter a string to check Entropy..");
             string input = Console.ReadLine();           
 
+            //load password into chars array
             char[] userInputCharArray = input.ToCharArray();
 
+            //loop through array and count chars
             for (int i=0;i<input.Length;i++)
             { 
                 userInputSingleChar = userInputCharArray[i];
@@ -56,6 +62,7 @@ namespace PassStrength
                 }
             }
 
+            //display information
             output = "The password you entered is " + input + "\n";
             output += "The number of chars is " + input.Length.ToString() + "\n";
             output += "There are " + counterOfSmallLetters + " small letters \n";
@@ -66,6 +73,7 @@ namespace PassStrength
             
             Console.WriteLine(output);
 
+            //calculate Entropy and display decision
             try
             {
                 Entropy = Math.Log((counterOfSmallLetters>0?26:0) + (counterOfSmallLetters>0?26:0) + (counterOfSpecialChars>0?10:0) + (counterOthers > 0 ? 10 : 0) + (counterOfNumbers>0?10:0), 2) * input.Length;
